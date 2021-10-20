@@ -3,30 +3,24 @@ import { PropTypes } from "prop-types";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
-export const AddContact = props => {
-	const [fullName, setFullName] = React.useState(props.fullName);
-	const [email, setEmail] = React.useState(props.email);
-	const [phone, setPhone] = React.useState(props.phone);
-	const [address, setAddress] = React.useState(props.address);
+export const EditContact = props => {
+	const { store, actions } = React.useContext(Context);
+	const currentContact = store.contacts.find(contact => {
+		return contact.id === props.match.params.id;
+	});
 
-	const { actions } = React.useContext(Context);
+	const [updatedContact, setupdatedContact] = React.useState({ ...currentContact });
 
-	const saveContact = () => {
-		const contactInfo = {
-			agenda_slug: "davidgoag",
-			full_name: fullName,
-			email: email,
-			phone: phone,
-			address: address
-		};
-
-		actions.addContact(contactInfo);
+	const updateContact = () => {
+		actions.EditContact(updatedContact);
 	};
+
+	const handleChange = e => setupdatedContact({ ...updatedContact, [e.target.name]: e.target.value });
 
 	return (
 		<div className="container">
 			<div>
-				<h1 className="text-center mt-5">Add a new contact</h1>
+				<h1 className="text-center mt-5">Now editing: {currentContact.full_name}</h1>
 				<form>
 					<div className="form-group">
 						<label>Full Name</label>
@@ -34,8 +28,9 @@ export const AddContact = props => {
 							type="text"
 							className="form-control"
 							placeholder="Full Name"
-							onChange={e => setFullName(e.target.value)}
-							value={fullName}
+							onChange={handleChange}
+							name="full_name"
+							value={updatedContact.full_name}
 						/>
 					</div>
 					<div className="form-group">
@@ -44,8 +39,9 @@ export const AddContact = props => {
 							type="email"
 							className="form-control"
 							placeholder="Enter email"
-							onChange={e => setEmail(e.target.value)}
-							value={email}
+							onChange={handleChange}
+							name="email"
+							value={updatedContact.email}
 						/>
 					</div>
 					<div className="form-group">
@@ -54,8 +50,9 @@ export const AddContact = props => {
 							type="phone"
 							className="form-control"
 							placeholder="Enter phone"
-							onChange={e => setPhone(e.target.value)}
-							value={phone}
+							onChange={handleChange}
+							name="phone"
+							value={updatedContact.phone}
 						/>
 					</div>
 					<div className="form-group">
@@ -64,8 +61,9 @@ export const AddContact = props => {
 							type="text"
 							className="form-control"
 							placeholder="Enter address"
-							onChange={e => setAddress(e.target.value)}
-							value={address}
+							onChange={handleChange}
+							name="address"
+							value={updatedContact.address}
 						/>
 					</div>
 
@@ -73,10 +71,10 @@ export const AddContact = props => {
 						type="button"
 						className="btn gghblue mt-5 form-control"
 						onClick={() => {
-							saveContact();
+							updateContact();
 							props.history.push("/");
 						}}>
-						Save
+						Update
 					</button>
 
 					<Link className="mt-3 w-100 text-center gghbluelink" to="/">
@@ -88,17 +86,7 @@ export const AddContact = props => {
 	);
 };
 
-AddContact.propTypes = {
-	fullName: PropTypes.string,
-	email: PropTypes.string,
-	phone: PropTypes.string,
-	address: PropTypes.string,
+EditContact.propTypes = {
+	match: PropTypes.object,
 	history: PropTypes.object
-};
-
-AddContact.defaultProps = {
-	fullName: "",
-	email: "",
-	phone: "",
-	address: ""
 };

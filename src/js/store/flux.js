@@ -16,8 +16,34 @@ const getState = ({ getStore, setStore }) => {
 							return new Error("Error fetching the API info");
 						}
 					})
-					.then(data => setStore(data))
+					.then(data => setStore({ contacts: data }))
 					.catch(error => console.error(error));
+			},
+
+			addContact: contact => {
+				fetch("https://assets.breatheco.de/apis/fake/contact/", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(contact)
+				})
+					.then(response => response.json())
+					.then(data => console.log("Success", data))
+					.catch(error => console.log("Error", error));
+			},
+
+			deleteContact: contactID => {
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${contactID}`, { method: "DELETE" });
+			},
+
+			EditContact: contact => {
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${contact.id}`, {
+					method: "PUT",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(contact)
+				})
+					.then(response => response.json())
+					.then(data => console.log("Success", data))
+					.catch(error => console.log("Error", error));
 			}
 		}
 	};

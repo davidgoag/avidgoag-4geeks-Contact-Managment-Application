@@ -20,7 +20,9 @@ export const EditContact = props => {
 	return (
 		<div className="container">
 			<div>
-				<h1 className="text-center mt-5">Now editing: {currentContact.full_name}</h1>
+				<h1 className="text-center mt-5">
+					Editing: <strong>{currentContact.full_name}</strong>
+				</h1>
 				<form>
 					<div className="form-group">
 						<label>Full Name</label>

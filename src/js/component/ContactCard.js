@@ -11,7 +11,7 @@ export const ContactCard = props => {
 	const contact = props.contact;
 
 	return (
-		<li className="list-group-item">
+		<li className="list-group-item pb-4 pt-3">
 			<div className="row w-100 d-flex align-items-center">
 				<div className="col-12 col-sm-6 col-md-3 px-0">
 					<img

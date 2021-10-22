@@ -44,7 +44,22 @@ const getState = ({ getStore, setStore }) => {
 			},
 
 			deleteContact: contactID => {
-				fetch(`https://assets.breatheco.de/apis/fake/contact/${contactID}`, { method: "DELETE" });
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${contactID}`, { method: "DELETE" })
+					.then(response => {
+						if (response.ok) {
+							fetch("https://assets.breatheco.de/apis/fake/contact/agenda/davidgoag")
+								.then(response => {
+									if (response.ok) {
+										return response.json();
+									} else {
+										return new Error("Error fetching the API info");
+									}
+								})
+								.then(data => setStore({ contacts: data }))
+								.catch(error => console.error(error));
+						}
+					})
+					.catch(error => console.log("Error", error));
 			},
 
 			EditContact: contact => {

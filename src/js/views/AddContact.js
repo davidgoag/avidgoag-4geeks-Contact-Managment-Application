@@ -13,7 +13,6 @@ export const AddContact = props => {
 
 	const saveContact = () => {
 		const contactInfo = {
-			agenda_slug: "davidgoag",
 			full_name: fullName,
 			email: email,
 			phone: phone,

@@ -2,13 +2,14 @@ const getState = ({ getStore, setStore }) => {
 	return {
 		store: {
 			//Your data structures, A.K.A Entities
-			contacts: []
+			contacts: [],
+			URL_API: "https://3000-blue-roadrunner-tii35uec.ws-us18.gitpod.io/contact"
 		},
 		actions: {
 			//(Arrow) Functions that update the Store
 			// Remember to use the scope: scope.state.store & scope.setState()
 			getContacts: () => {
-				fetch("https://assets.breatheco.de/apis/fake/contact/agenda/davidgoag")
+				fetch(`${getStore().URL_API}/all`)
 					.then(response => {
 						if (response.ok) {
 							return response.json();
@@ -21,14 +22,14 @@ const getState = ({ getStore, setStore }) => {
 			},
 
 			addContact: contact => {
-				fetch("https://assets.breatheco.de/apis/fake/contact/", {
+				fetch(`${getStore().URL_API}`, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(contact)
 				})
 					.then(response => {
 						if (response.ok) {
-							fetch("https://assets.breatheco.de/apis/fake/contact/agenda/davidgoag")
+							fetch(`${getStore().URL_API}/all`)
 								.then(response => {
 									if (response.ok) {
 										return response.json();
@@ -44,10 +45,10 @@ const getState = ({ getStore, setStore }) => {
 			},
 
 			deleteContact: contactID => {
-				fetch(`https://assets.breatheco.de/apis/fake/contact/${contactID}`, { method: "DELETE" })
+				fetch(`${getStore().URL_API}/${contactID}`, { method: "DELETE" })
 					.then(response => {
 						if (response.ok) {
-							fetch("https://assets.breatheco.de/apis/fake/contact/agenda/davidgoag")
+							fetch(`${getStore().URL_API}/all`)
 								.then(response => {
 									if (response.ok) {
 										return response.json();
@@ -63,14 +64,14 @@ const getState = ({ getStore, setStore }) => {
 			},
 
 			EditContact: contact => {
-				fetch(`https://assets.breatheco.de/apis/fake/contact/${contact.id}`, {
+				fetch(`${getStore().URL_API}/${contact.id}`, {
 					method: "PUT",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(contact)
 				})
 					.then(response => {
 						if (response.ok) {
-							fetch("https://assets.breatheco.de/apis/fake/contact/agenda/davidgoag")
+							fetch(`${getStore().URL_API}/all`)
 								.then(response => {
 									if (response.ok) {
 										return response.json();

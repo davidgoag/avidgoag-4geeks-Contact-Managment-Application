@@ -6,7 +6,7 @@ import { Context } from "../store/appContext";
 export const EditContact = props => {
 	const { store, actions } = React.useContext(Context);
 	const currentContact = store.contacts.find(contact => {
-		return contact.id === props.match.params.id;
+		return contact.id == props.match.params.id;
 	});
 
 	const [updatedContact, setupdatedContact] = React.useState({ ...currentContact });
